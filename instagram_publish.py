@@ -38,4 +38,5 @@ if __name__ == '__main__':
     bot = Bot()
     instagram_login()
     upload_photo(image_files)
+    bot.logout()
 
