@@ -1,6 +1,6 @@
 # Space Instagram
 
-The program provides you possibility to automatic download space-thematics photos and publish this to your [instagram](https://www.instagram.com) -account.
+The program provides you possibility to automatic download space-thematics photos and publish it to your [instagram](https://www.instagram.com) -account.
 Program consist of these independent modules:
 - `fetch_spacex.py` - download collection of photos with last [spacex](https://www.spacex.com/)- launch  
 - `fetch_hubble.py` - download collection of photos made by [Hubble Space Telescope](https://www.nasa.gov/mission_pages/hubble/main/index.html)
@@ -8,7 +8,6 @@ Program consist of these independent modules:
 
 ### How to install
 
-bit.ly wouldn't provide you data, until you get access-token. It needs to communicate with API Bitly. All you need - is:
 
 - Create account in the instagram, or use existing
 - Remember your login and password
