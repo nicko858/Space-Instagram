@@ -6,8 +6,6 @@ from os.path import isfile
 from os.path import join
 from dotenv import load_dotenv
 
-load_dotenv()
-
 
 def instagram_login():
     inst_login = getenv("INST_LOGIN")
@@ -31,6 +29,7 @@ def get_image_files_list(path_to_images):
 
 
 if __name__ == '__main__':
+    load_dotenv()
     image_dir = get_image_directory(dir_name="images")
     if not image_dir:
         exit("Permission problems!")

@@ -7,6 +7,10 @@ from common_tools import get_image_directory
 import os
 
 
+class SpacexAPIUnavailable(Exception):
+    pass
+
+
 def get_spacex_img_urls(spacex_latest_launch_data):
     img_urls = spacex_latest_launch_data["links"]["flickr_images"]
     return img_urls
@@ -30,7 +34,7 @@ def get_spacex_latest_launch_data():
 def fetch_spacex_last_launch(image_dir):
     spacex_latest_launch_data = get_spacex_latest_launch_data()
     if not spacex_latest_launch_data:
-        return "SpaceX api is unavailable!"
+        raise SpacexAPIUnavailable("SpaceX api is unavailable!")
     spacex_img_urls = get_spacex_img_urls(spacex_latest_launch_data)
     downloaded_images = {}
     for number, img_url in enumerate(spacex_img_urls, start=1):
@@ -38,10 +42,7 @@ def fetch_spacex_last_launch(image_dir):
         img_filename = "spacex{}.{}".format(number, file_extension)
         file_path = os.path.join(image_dir, img_filename)
         downloaded_image = download_image(img_url, file_path)
-        if not downloaded_image:
-            downloaded_images[img_url] = False
-        else:
-            downloaded_images[img_url] = True
+        downloaded_images[img_url] = True if downloaded_image else False
     return downloaded_images
 
 
@@ -49,9 +50,11 @@ if __name__ == '__main__':
     image_dir = get_image_directory(dir_name="images")
     if not image_dir:
         exit("Permission problems!")
-    spacex_downloaded_images = fetch_spacex_last_launch(image_dir)
-    if not isinstance(spacex_downloaded_images, dict):
-        exit(spacex_downloaded_images)
+    try:
+        spacex_downloaded_images = fetch_spacex_last_launch(image_dir)
+    except SpacexAPIUnavailable as error:
+        exit(error)
     for image_url, status in spacex_downloaded_images.items():
         if not status:
             print("Couldn't download image {}".format(image_url))
+    print("Images from last SpaceX launch - downloaded!")
